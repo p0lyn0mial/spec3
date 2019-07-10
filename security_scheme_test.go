@@ -2,7 +2,6 @@ package spec3_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/go-openapi/spec"
@@ -12,39 +11,39 @@ import (
 
 func TestSecuritySchemaJSONSerialization(t *testing.T) {
 	cases := []struct {
-		name                     string
-		securitySchema           *spec3.SecurityScheme
-		serializedSecuritySchema string
+		name           string
+		target         *spec3.SecurityScheme
+		expectedOutput string
 	}{
 		// scenario 1
 		{
 			name: "scenario1: basic authentication",
-			securitySchema: &spec3.SecurityScheme{
+			target: &spec3.SecurityScheme{
 				SecuritySchemeProps: spec3.SecuritySchemeProps{
 					Type:   "http",
 					Scheme: "basic",
 				},
 			},
-			serializedSecuritySchema: `{"type":"http","scheme":"basic"}`,
+			expectedOutput: `{"type":"http","scheme":"basic"}`,
 		},
 
 		// scenario 2
 		{
 			name: "scenario2: JWT Bearer",
-			securitySchema: &spec3.SecurityScheme{
+			target: &spec3.SecurityScheme{
 				SecuritySchemeProps: spec3.SecuritySchemeProps{
 					Type:         "http",
 					Scheme:       "basic",
 					BearerFormat: "JWT",
 				},
 			},
-			serializedSecuritySchema: `{"type":"http","scheme":"basic","bearerFormat":"JWT"}`,
+			expectedOutput: `{"type":"http","scheme":"basic","bearerFormat":"JWT"}`,
 		},
 
 		// scenario 3
 		{
 			name: "scenario3: implicit OAuth2",
-			securitySchema: &spec3.SecurityScheme{
+			target: &spec3.SecurityScheme{
 				SecuritySchemeProps: spec3.SecuritySchemeProps{
 					Type: "oauth2",
 					Flows: map[string]*spec3.OAuthFlow{
@@ -60,28 +59,27 @@ func TestSecuritySchemaJSONSerialization(t *testing.T) {
 					},
 				},
 			},
-			serializedSecuritySchema: `{"type":"oauth2","flows":{"implicit":{"authorizationUrl":"https://example.com/api/oauth/dialog","scopes":{"read:pets":"read your pets","write:pets":"modify pets in your account"}}}}`,
+			expectedOutput: `{"type":"oauth2","flows":{"implicit":{"authorizationUrl":"https://example.com/api/oauth/dialog","scopes":{"read:pets":"read your pets","write:pets":"modify pets in your account"}}}}`,
 		},
 
 		// scenario 4
 		{
 			name: "scenario4: reference Object",
-			securitySchema: &spec3.SecurityScheme{
+			target: &spec3.SecurityScheme{
 				Refable: spec.Refable{Ref: spec.MustCreateRef("k8s.io/api/foo/v1beta1b.bar")},
 			},
-			serializedSecuritySchema: `{"$ref":"k8s.io/api/foo/v1beta1b.bar"}`,
+			expectedOutput: `{"$ref":"k8s.io/api/foo/v1beta1b.bar"}`,
 		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			rawSecuritySchema, err := json.Marshal(tc.securitySchema)
+			rawTarget, err := json.Marshal(tc.target)
 			if err != nil {
 				t.Fatal(err)
 			}
-			stringSecuritySchema := string(rawSecuritySchema)
-			if !cmp.Equal(stringSecuritySchema, tc.serializedSecuritySchema) {
-				fmt.Println(stringSecuritySchema)
-				t.Fatalf("diff %s", cmp.Diff(stringSecuritySchema, tc.serializedSecuritySchema))
+			serializedTarget := string(rawTarget)
+			if !cmp.Equal(serializedTarget, tc.expectedOutput) {
+				t.Fatalf("diff %s", cmp.Diff(serializedTarget, tc.expectedOutput))
 			}
 		})
 	}

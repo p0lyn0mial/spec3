@@ -5,5 +5,9 @@ package spec3
 // Note: at the moment this struct doesn't fully conforms to the OpenAPI Specification in version 3.0,
 //       it is just a proof of concept
 type OpenAPI struct {
-	Components Components `json:"components,omitempty"`
+	// Paths holds the available target and operations for the API
+	Paths Paths `json:"target,omitempty"`
+
+	// Components hold various schemas for the specification
+	Components Components `json:"target,omitempty"`
 }

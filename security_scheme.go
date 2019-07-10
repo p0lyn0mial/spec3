@@ -7,19 +7,14 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// SecurityScheme defines reusable Security Scheme Object
-// as described in https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
+// SecurityScheme defines reusable Security Scheme Object, more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
 type SecurityScheme struct {
-	// Refable is a simple object to allow referencing other components in the specification, more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#referenceObject
 	spec.Refable
-	// SecuritySchemeProps defines a security scheme that can be used by the operations
 	SecuritySchemeProps
-	// VendorExtensible allows for adding additional fields, more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#specification-extensions
 	spec.VendorExtensible
 }
 
-// MarshalJSON is a custom marshal function that knows how to
-// encode SecurityScheme as JSON
+// MarshalJSON is a custom marshal function that knows how to encode SecurityScheme as JSON
 func (s *SecurityScheme) MarshalJSON() ([]byte, error) {
 	b1, err := json.Marshal(s.SecuritySchemeProps)
 	if err != nil {
@@ -59,7 +54,6 @@ type SecuritySchemeProps struct {
 // OAuthFlow contains configuration information for the flow types supported.
 type OAuthFlow struct {
 	OAuthFlowProps
-	// VendorExtensible allows for adding additional fields https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#oauth-flow-object
 	spec.VendorExtensible
 }
 
