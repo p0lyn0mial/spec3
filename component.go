@@ -6,12 +6,11 @@ import "github.com/go-openapi/spec"
 // All objects defined within the components object will have no effect on the API
 // unless they are explicitly referenced from properties outside the components object.
 //
-// see: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject
+// more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject
 type Components struct {
 	// Schemas holds reusable Schema Objects
 	Schemas Schemas `json:"schemas,omitempty"`
-	// SecuritySchemes holds reusable Security Scheme Objects
-	// see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
+	// SecuritySchemes holds reusable Security Scheme Objects, more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
 	SecuritySchemes SecuritySchemes `json:"securitySchemes,omitempty"`
 	// the following fields are missing:
 	//
@@ -26,8 +25,7 @@ type Components struct {
 	// all fields are defined at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject
 }
 
-// SecuritySchemes holds reusable Security Scheme Objects
-// see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
+// SecuritySchemes holds reusable Security Scheme Objects, more at https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
 type SecuritySchemes map[string]*SecurityScheme
 
 // Schemas holds reusable Schema Objects
